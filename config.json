@@ -1,0 +1,5 @@
+{
+  "port": "8080",
+  "project_root_dir": "./",
+  "env": "DEV"
+}

@@ -1,0 +1,52 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Todo {
+  id: ID!
+  text: String!
+  done: Boolean!
+  user: User!
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type Order {
+  id: ID!
+  userId: String!
+  name: String!
+  type: String!
+  bill: Bill!
+}
+
+type Bill {
+ id: ID!
+ type: String!
+ code:  String!
+}
+
+type Query {
+  todos: [Todo!]!
+}
+
+input NewTodo {
+  text: String!
+  userId: String!
+}
+
+input NewOrder {
+  id: String!
+  userId: String!
+  name: String!
+  type: String!
+  billId: String!
+}
+
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+  createOrder(input: NewOrder!): Todo!
+}
