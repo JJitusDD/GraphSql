@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+log() {
+  msg=$1
+  echo "Start_script: ${msg}"
+}
+
+if [ ${#@} -eq 0 ]; then
+  log "Not found argument to start application !!!"
+  exit 1
+fi
+
+startCommand=$1
+workdir=$(pwd)
+
+if [ ! -x ${startCommand} ]; then
+  log "Not found binary ${workdir}/${startCommand} or binary is not executable file !!!"
+  exit 1
+fi
+echo ${workdir}/${startCommand}
+exec ${workdir}/${startCommand}
+
