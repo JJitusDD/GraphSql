@@ -13,13 +13,6 @@ import (
 )
 
 // CreateTodo is the resolver for the createTodo field.
-// curl --location 'localhost:8080/query' \
-// --header 'Content-Type: application/json' \
-// --header 'Authorization: ••••••' \
-//
-//	--data '{
-//	   "query": "mutation { createTodo(input: {userId: \"id1\", text: \"john.doe\"}) { id text done user { id name } } }"
-//	}'
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	randNumber, _ := rand.Int(rand.Reader, big.NewInt(100))
 	todo := &model.Todo{
