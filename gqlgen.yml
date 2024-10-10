@@ -99,7 +99,3 @@ models:
     fields:
       user:
         resolver: true
-  Order:
-    fields:
-      bill:
-        resolver: true

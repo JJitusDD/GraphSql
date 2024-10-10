@@ -13,6 +13,13 @@ import (
 )
 
 // CreateTodo is the resolver for the createTodo field.
+// curl --location 'localhost:8080/query' \
+// --header 'Content-Type: application/json' \
+// --header 'Authorization: ••••••' \
+//
+//	--data '{
+//	   "query": "mutation { createTodo(input: {userId: \"id1\", text: \"john.doe\"}) { id text done user { id name } } }"
+//	}'
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	randNumber, _ := rand.Int(rand.Reader, big.NewInt(100))
 	todo := &model.Todo{
@@ -29,11 +36,6 @@ func (r *mutationResolver) CreateOrder(ctx context.Context, input model.NewOrder
 	panic(fmt.Errorf("not implemented: CreateOrder - createOrder"))
 }
 
-// Bill is the resolver for the bill field.
-func (r *orderResolver) Bill(ctx context.Context, obj *model.Order) (*model.Bill, error) {
-	panic(fmt.Errorf("not implemented: Bill - bill"))
-}
-
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	panic(fmt.Errorf("not implemented: Todos - todos"))
@@ -41,14 +43,11 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 
 // User is the resolver for the user field.
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+	return obj.User, nil
 }
 
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
-
-// Order returns OrderResolver implementation.
-func (r *Resolver) Order() OrderResolver { return &orderResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
@@ -57,6 +56,19 @@ func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 func (r *Resolver) Todo() TodoResolver { return &todoResolver{r} }
 
 type mutationResolver struct{ *Resolver }
-type orderResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type todoResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+/*
+	func (r *orderResolver) Bill(ctx context.Context, obj *model.Order) (*model.Bill, error) {
+	panic(fmt.Errorf("not implemented: Bill - bill"))
+}
+func (r *Resolver) Order() OrderResolver { return &orderResolver{r} }
+type orderResolver struct{ *Resolver }
+*/
