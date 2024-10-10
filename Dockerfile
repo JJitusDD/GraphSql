@@ -26,6 +26,6 @@ COPY config.json ./config.json
 COPY --from=build /build/server .
 
 RUN  chmod +x bin/run
-EXPOSE 8081
+EXPOSE 8080
 
 CMD ["bin/run", "server"]

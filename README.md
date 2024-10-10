@@ -1,11 +1,6 @@
 # Graph sql Service - Integrate in Echo Framework
 This project demonstrates a simple Go application with GraphQL which is integrated Echo Framework, running inside a Docker container and managed with Docker Compose.
 
-## Prerequisites
-
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-
 ### Structure design
 
 ```
@@ -45,12 +40,17 @@ packages used in this application.
 ```sh
 git clone https://github.com/JJitusDD/GraphSql.git
 cd GraphSql
-docker-compose up --build
 ```
+
+#### 1.1 Docker
+docker-compose up --build
+
+#### 1.2 Go run
+go run cmd/server/server.go
 
 ``` 
 # Make a POST request to create a new Todo
-curl --location 'localhost:8081/query' \
+curl --location 'localhost:8080/query' \
  --header 'Content-Type: application/json' \
  --header 'Authorization: ••••••' \
 
@@ -59,7 +59,7 @@ curl --location 'localhost:8081/query' \
 	}'
 
 # Make a POST request to get list Todo	
-curl --location 'http://localhost:8081/query' \
+curl --location 'http://localhost:8080/query' \
 --header 'Content-Type: application/json' \
 --data '{"query":"{ todos { id text done user { id name } } }"}'	
 ```
