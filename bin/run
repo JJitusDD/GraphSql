@@ -19,6 +19,6 @@ if [ ! -x ${startCommand} ]; then
   log "Not found binary ${workdir}/${startCommand} or binary is not executable file !!!"
   exit 1
 fi
-echo ${workdir}/${startCommand}
+log "log: ${workdir}/${startCommand}"
 exec ${workdir}/${startCommand}
 
