@@ -38,7 +38,19 @@ func (r *mutationResolver) CreateOrder(ctx context.Context, input model.NewOrder
 
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+	todo := []*model.Todo{
+		{
+			ID:   "ID1",
+			Text: "A example response",
+			Done: true,
+			User: &model.User{
+				ID:   "UserID1",
+				Name: "Test",
+			},
+		},
+	}
+
+	return todo, nil
 }
 
 // User is the resolver for the user field.
