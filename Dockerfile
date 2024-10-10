@@ -21,6 +21,7 @@ RUN apk add --no-cache bash
 WORKDIR /app
 
 COPY bin/run bin/run
+COPY config.json ./config.json
 
 COPY --from=build /build/server .
 
