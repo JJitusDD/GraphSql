@@ -1,11 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"os"
 	"time"
 )
 
 func worker(id int, jobs <-chan string, results chan<- string) {
+
 	for j := range jobs {
 		fmt.Println("worker", id, "started  job", j)
 		time.Sleep(time.Second)
@@ -15,7 +19,7 @@ func worker(id int, jobs <-chan string, results chan<- string) {
 }
 
 func main() {
-
+	TestGetMessage("es", "hello")
 }
 
 // Goroutine Coordination: Channels help in coordinating multiple goroutines.
@@ -87,4 +91,44 @@ func TestMultipleGoroutine() {
 	for x := range squares {
 		fmt.Println(x)
 	}
+}
+
+func TestGetMessage(language, param string) {
+	message, err := GetMessage(language, param)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println("Message:", message)
+}
+
+func loadLanguageData(language string) (map[string]string, error) {
+	fileName := fmt.Sprintf("configs/languages/%s.json", language)
+	file, err := os.Open(fileName)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+
+	var data map[string]string
+	err = json.Unmarshal(bytes, &data)
+	return data, err
+}
+
+func GetMessage(language, param string) (string, error) {
+	data, err := loadLanguageData(language)
+	if err != nil {
+		return "", err
+	}
+
+	if message, exists := data[param]; exists {
+		return message, nil
+	}
+	return "", fmt.Errorf("parameter %s not found in language %s", param, language)
 }

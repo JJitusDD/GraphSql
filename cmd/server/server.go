@@ -3,21 +3,19 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"os/signal"
 	"project-test/configs"
 	"project-test/graph"
-	"project-test/internal/app/middleware"
 	"project-test/internal/domain/facade"
-	"strings"
 	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	validator "github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
-	echo_middleware "github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 )
 
@@ -66,23 +64,13 @@ func main() {
 	validate := validator.New()
 	e.Validator = &CustomValidator{validator: validate}
 
-	// Middleware
-	e.Use(echo_middleware.Recover())
-	e.Use(echo_middleware.RequestID())
-	e.Use(middleware.TraceIDMiddleware())
-	e.Use(middleware.LogCollect(f.Logger))
-	e.Use(echo_middleware.GzipWithConfig(echo_middleware.GzipConfig{
-		Level: 5,
-		Skipper: func(c echo.Context) bool {
-			return strings.Contains(c.Path(), "metrics") // Change "metrics" for your own path
-		},
-	}))
-
 	// error handler
 	e.HTTPErrorHandler = CustomHTTPErrorHandler(f.Logger)
+	// Recover middleware
+	e.Use(middleware.Recover())
 
 	e.GET("/health", func(c echo.Context) error {
-		return c.NoContent(http.StatusOK)
+		return c.NoContent(200)
 	})
 	e.POST("/query", func(c echo.Context) error {
 		// Handle GraphQL request
