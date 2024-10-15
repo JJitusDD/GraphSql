@@ -1,5 +1,19 @@
 {
   "port": "8080",
   "project_root_dir": "./",
-  "env": "DEV"
+  "env": "DEV",
+  "redis": {
+    "addr": "redis:6379",
+    "password": "root",
+    "db": 1
+  },
+  "postgres": {
+    "dbname": "public",
+    "debug_mode": true,
+    "host": "postgres",
+    "password": "root",
+    "port": 5432,
+    "user": "root"
+  },
+  "mongo_uri": "mongodb://root:root@mongodb:27017/"
 }

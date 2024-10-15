@@ -20,6 +20,7 @@ This project demonstrates a simple Go application with GraphQL which is integrat
     |-- infrastructure
         |-- persistence (implementations of repositories)
         |-- utils (utility functions)
+        |-- facade (facade design pattern)
 |-- pkg (third-party packages)
     |-- logger (implementations of logging lib)
         |-- logger.go

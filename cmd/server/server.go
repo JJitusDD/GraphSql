@@ -10,7 +10,7 @@ import (
 	"os/signal"
 	"project-test/configs"
 	"project-test/graph"
-	"project-test/internal/domain/facade"
+	"project-test/internal/infrastructure/facade"
 	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
@@ -24,7 +24,7 @@ const defaultPort = "8080"
 type App struct {
 	Config *configs.Config
 	Echo   *echo.Echo
-	Facade *facade.AutoReconcileFacade
+	Facade *facade.Facade
 }
 
 type CustomValidator struct {
@@ -51,7 +51,7 @@ func main() {
 		panic(err)
 	}
 
-	f := facade.NewAutoReconcileFacade(confg)
+	f := facade.NewFacade(confg)
 	e.Logger.SetLevel(log.INFO)
 
 	if confg.ENV != "PRODUCTION" {
